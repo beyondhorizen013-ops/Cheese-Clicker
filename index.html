@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cheese Clicker</title>
+    <style>
+        body { background: #fdf5e6; font-family: 'Segoe UI', sans-serif; text-align: center; user-select: none; }
+        #game-container { display: flex; justify-content: space-around; padding: 50px; }
+        
+        /* The Big Cheese */
+        #cheese { 
+            width: 200px; cursor: pointer; transition: transform 0.1s; 
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2));
+        }
+        #cheese:active { transform: scale(0.95); }
+
+        /* Stats & Shop */
+        .panel { background: #fff; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 300px; }
+        button { 
+            width: 100%; padding: 10px; margin: 5px 0; cursor: pointer;
+            background: #ffcc00; border: none; border-radius: 5px; font-weight: bold;
+        }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+
+    <h1>Cheese Clicker 🧀</h1>
+    <div id="game-container">
+        <div class="panel">
+            <h2 id="cheese-count">Cheese: 0</h2>
+            <p id="cps-display">CPS: 0</p>
+            <img id="cheese" src="https://img.icons8.com/emoji/256/cheese-wedge-emoji.png" alt="Cheese">
+        </div>
+
+        <div class="panel">
+            <h3>The Fromagerie (Shop)</h3>
+            <button id="buy-mouse" onclick="buyUpgrade('mouse')">Buy Mouse (Cost: 15) [+0.1 CPS]</button>
+            <button id="buy-press" onclick="buyUpgrade('press')">Buy Press (Cost: 100) [+1 CPS]</button>
+            <button id="buy-farm" onclick="buyUpgrade('farm')">Buy Farm (Cost: 1000) [+8 CPS]</button>
+        </div>
+    </div>
+
+    <script>
+        let cheese = 0;
+        let cps = 0;
+
+        const upgrades = {
+            mouse: { cost: 15, power: 0.1, count: 0, btn: document.getElementById('buy-mouse') },
+            press: { cost: 100, power: 1, count: 0, btn: document.getElementById('buy-press') },
+            farm: { cost: 1000, power: 8, count: 0, btn: document.getElementById('buy-farm') }
+        };
+
+        // Manual Click
+        document.getElementById('cheese').addEventListener('click', () => {
+            cheese++;
+            updateDisplay();
+        });
+
+        // Shop Logic
+        function buyUpgrade(id) {
+            const item = upgrades[id];
+            if (cheese >= item.cost) {
+                cheese -= item.cost;
+                item.count++;
+                cps += item.power;
+                item.
